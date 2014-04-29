@@ -85,14 +85,15 @@
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:urlStr]];
     }
     else if ([title isEqualToString:kAMap]) {
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"iosamap://navi?sourceApplication=FishSaying&backScheme=fishsaying&lat=%.8f&lon=%.8f&dev=1&style=1",_toLocation.coordinate.latitude,_toLocation.coordinate.longitude]];
+        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"iosamap://navi?sourceApplication=FishSaying&backScheme=fishsaying&lat=%.8f&lon=%.8f&dev=0&style=1",_toLocation.coordinate.latitude,_toLocation.coordinate.longitude]];
         [[UIApplication sharedApplication] openURL:url];
     }
     else if ([title isEqualToString:kBaiduMap]) {
-        double baiduLat, baiduLng;
-        bd_encrypt(_currentLocation.coordinate.latitude, _currentLocation.coordinate.longitude, &baiduLat, &baiduLng);
+        double fromLat, fromLng, toLat, toLng;
+        bd_encrypt(_currentLocation.coordinate.latitude, _currentLocation.coordinate.longitude, &fromLat, &fromLng);
+        bd_encrypt(_toLocation.coordinate.latitude, _toLocation.coordinate.longitude, &toLat, &toLng);
         
-        NSString *stringURL = [NSString stringWithFormat:@"baidumap://map/direction?origin=%.8f,%.8f&destination=%.8f,%.8f&&mode=driving",baiduLat,baiduLng,_toLocation.coordinate.latitude,_toLocation.coordinate.longitude];
+        NSString *stringURL = [NSString stringWithFormat:@"baidumap://map/direction?origin=%.8f,%.8f&destination=%.8f,%.8f&&mode=driving",fromLat,fromLng,toLat,toLng];
         NSURL *url = [NSURL URLWithString:stringURL];
         [[UIApplication sharedApplication] openURL:url];
     }
